@@ -1,48 +1,36 @@
+from seleniumbase import SB
 import os
-import time
-import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
-def scrape_dizipal():
-    options = uc.ChromeOptions()
-    options.add_argument('--headless')  # GitHub'da arayüzsüz çalışmalı
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
+def run_scraper():
+    # UC (Undetected) modunda ve headless (arayüzsüz) başlatıyoruz
+    with SB(uc=True, headless=True) as sb:
+        try:
+            url = "https://dizipal.bar/"
+            print(f"Siteye gidiliyor: {url}")
+            sb.open(url)
 
-    try:
-        # Sürücüyü başlat
-        driver = uc.Chrome(options=options)
-        driver.get("https://dizipal.bar/")
-        
-        print("Sayfa yükleniyor, 10 saniye bekleniyor...")
-        time.sleep(10) # Sayfanın oturması için ek süre
+            # Cloudflare doğrulaması için biraz bekle ve içeriği kontrol et
+            sb.sleep(10) 
+            
+            # Eğer 'home-content' yüklenmezse hata vermemesi için kontrol
+            if sb.is_element_present('section.mt-4'):
+                # İstediğin bölümün içeriğini al
+                content = sb.get_html('div.max-w-\[1180px\]')
+                
+                with open("sonuc.html", "w", encoding="utf-8") as f:
+                    f.write(content)
+                print("Başarıyla kaydedildi: sonuc.html")
+            else:
+                print("Hedef element bulunamadı, muhtemelen Cloudflare engeline takıldı.")
+            
+            # Her durumda hata ayıklama için ekran görüntüsü al
+            sb.save_screenshot("debug.png")
 
-        # Hata ayıklama için ekran görüntüsü al (Klasörde 'error.png' olarak gözükür)
-        driver.save_screenshot("debug.png")
-
-        # Elementin yüklenmesini bekle
-        wait = WebDriverWait(driver, 20)
-        # Sadece section'ın varlığını kontrol edelim (daha garanti)
-        target_element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "section")))
-        
-        # HTML içeriğini al
-        content = driver.page_source
-        
-        with open("sonuc.html", "w", encoding="utf-8") as f:
-            f.write(content)
-        
-        print("İşlem başarılı! Veri 'sonuc.html' dosyasına yazıldı.")
-
-    except Exception as e:
-        print(f"Hata detayı: {e}")
-        # Hata anında ekranı çek ki neden bulamadığını görelim
-        if 'driver' in locals():
-            driver.save_screenshot("hata_aninda_ekran.png")
-    finally:
-        if 'driver' in locals():
-            driver.quit()
+        except Exception as e:
+            print(f"Hata oluştu: {e}")
+            if not os.path.exists("debug.png"):
+                try: sb.save_screenshot("debug.png")
+                except: pass
 
 if __name__ == "__main__":
-    scrape_dizipal()
+    run_scraper()
