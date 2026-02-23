@@ -1,59 +1,53 @@
-import random
 from seleniumbase import SB
+import os
 
-def run_scraper():
-    # En yaygın gerçek kullanıcı tarayıcı kimliklerinden biri
+def scrape_dizipal():
+    # Hedef URL ve User-Agent (Gerçek bir tarayıcı gibi görünmek için)
+    target_url = "https://dizipal2026.com/"
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-    
-    # uc=True: Bot engelini aşma modu
-    # headless=True: GitHub Actions için gerekli (Arayüzsüz)
+
+    # uc=True: Undetected Mode'u aktif eder
     with SB(uc=True, headless=True, agent=user_agent) as sb:
         try:
-            url = "https://dizipal.bar/"
-            print(f"Site açılıyor: {url}")
+            print(f"Siteye giriş yapılıyor: {target_url}")
+            sb.uc_open_with_reconnect(target_url, 6)
             
-            # 1. Adım: Siteye bağlan (Cloudflare algılarsa otomatik yeniden bağlanır)
-            sb.uc_open_with_reconnect(url, reconnect_time=6)
-            
-            # 2. Adım: "İnsan gibi" rastgele bekle (3-7 saniye arası)
-            bekleme_suresi = random.uniform(3.5, 7.2)
-            print(f"İnsan gibi bekleniyor: {bekleme_suresi:.2f} saniye...")
-            sb.sleep(bekleme_suresi)
-            
-            # 3. Adım: Eğer doğrulama kutucuğu varsa tıkla (En kritik yer)
-            print("Doğrulama kutucuğu taranıyor ve tıklanıyor...")
+            # 1. Aşama: Cloudflare/Captcha kontrolü ve tıklama
+            sb.sleep(5) # Sayfanın oturması için bekle
             try:
-                sb.uc_gui_click_captcha() 
-                print("Kutucuğa tıklandı veya kutucuk geçildi.")
-            except Exception as e:
-                print("Kutucuk tıklanamadı veya zaten geçildi.")
+                sb.uc_gui_click_captcha()
+                print("Doğrulama kutucuğuna tıklandı.")
+            except:
+                print("Doğrulama kutucuğu bulunamadı, muhtemelen direkt geçildi.")
 
-            # 4. Adım: İçeriğin yüklenmesi için biraz daha bekle
-            sb.sleep(10)
+            # 2. Aşama: İçeriğin yüklenmesini bekle
+            # 'Son Eklenen Diziler' yazısını içeren section'ı bekliyoruz
+            print("İçerik yüklenmesi bekleniyor...")
+            sb.wait_for_element("section.content-section", timeout=20)
             
-            # Ekran görüntüsü al (Başarıyı veya engeli görmek için)
-            sb.save_screenshot("son_durum.png")
+            # 3. Aşama: Veriyi çek
+            # Birden fazla content-section olabilir, biz başlığı kontrol edelim
+            sections = sb.find_elements("section.content-section")
+            target_html = ""
             
-            # 5. Adım: Hedef bölümü (section) kontrol et
-            if sb.is_element_present('section'):
-                print("BAŞARILI: Site içeriğine girildi!")
-                # İstediğin div içeriğini al
-                try:
-                    content = sb.get_html('div.max-w-\[1180px\]')
-                    with open("sonuc.html", "w", encoding="utf-8") as f:
-                        f.write(content)
-                except:
-                    # Div bulunamazsa tüm sayfayı al
-                    with open("sonuc.html", "w", encoding="utf-8") as f:
-                        f.write(sb.get_page_source())
+            for section in sections:
+                if "Son Eklenen Diziler" in section.text:
+                    target_html = section.get_attribute("outerHTML")
+                    break
+            
+            if target_html:
+                with open("sonuc.html", "w", encoding="utf-8") as f:
+                    f.write(target_html)
+                print("BAŞARILI: 'Son Eklenen Diziler' bölümü kaydedildi.")
             else:
-                print("HATA: Hala doğrulama ekranında takılıyız.")
-                with open("hata_sayfasi.html", "w", encoding="utf-8") as f:
-                    f.write(sb.get_page_source())
+                print("HATA: Belirtilen bölüm bulunamadı.")
+                sb.save_screenshot("hata_bulunamadi.png")
 
         except Exception as e:
-            print(f"Sistem Hatası: {e}")
+            print(f"Bir hata oluştu: {e}")
             sb.save_screenshot("hata_debug.png")
+            with open("hata_sayfa_kaynagi.html", "w", encoding="utf-8") as f:
+                f.write(sb.get_page_source())
 
 if __name__ == "__main__":
-    run_scraper()
+    scrape_dizipal()
