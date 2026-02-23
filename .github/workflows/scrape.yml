@@ -1,0 +1,32 @@
+name: Dizipal Scraper
+
+on:
+  schedule:
+    - cron: '0 12 * * *' # Her gün öğlen 12'de çalışır
+  workflow_dispatch:      # Manuel olarak başlatma butonu ekler
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repo Kontrol
+      uses: actions/checkout@v3
+
+    - name: Python Kurulumu
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Bağımlılıkları Yükle
+      run: |
+        pip install selenium webdriver-manager
+
+    - name: Scripti Çalıştır
+      run: python scraper.py
+
+    - name: Sonuçları Kaydet
+      uses: actions/upload-artifact@v4
+      with:
+        name: dizipal-icerik
+        path: sonuc.html
