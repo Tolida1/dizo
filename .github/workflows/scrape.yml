@@ -3,17 +3,17 @@ name: NETV Data Sync
 on:
   schedule:
     - cron: '0 * * * *' # Her saat başı çalışır
-  workflow_dispatch: # Manuel çalıştırma butonu ekler
+  workflow_dispatch: # Manuel çalıştırma butonu (Test için)
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/set_user@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
