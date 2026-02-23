@@ -1,35 +1,35 @@
-name: Dizipal 2026 Scraper
+name: Dizipal Detail Scraper
 
 on:
-  workflow_dispatch: # Manuel başlatmak için
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Python Kurulumu
+      - name: Python Setup
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Bağımlılıkları Yükle
+      - name: Install
         run: |
           pip install seleniumbase
           sbase install chromedriver
 
-      - name: Scraper'ı Çalıştır
+      - name: Run
         run: python scraper.py
 
-      - name: Sonuçları Yükle (Artifact)
+      - name: Upload
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dizipal-verileri
+          name: dizi-detay-verisi
           path: |
-            sonuc.html
-            hata_debug.png
-            hata_bulunamadi.png
-            hata_sayfa_kaynagi.html
+            bolumler.html
+            sayfa_son_hali.png
+            hata_detay.png
+            hata_kaynak.html
