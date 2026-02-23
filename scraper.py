@@ -1,46 +1,42 @@
-from seleniumbase import SB
+import requests
+import json
 import os
 
-def scrape_dizipal_detay():
-    # Yeni hedef URL
-    url = "https://dizipal2026.com/dizi/all-her-fault"
-    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+# Ayarlar
+BASE_URL = "https://direniyoruz77.store/palx/"
+TARGET_API = "https://tivorlisusan.site/1/receiver.php" # Veriyi göndereceğimiz adres
+SECRET_KEY = "ozel_anahtar_123" # Güvenlik için
 
-    with SB(uc=True, headless=True, agent=user_agent) as sb:
-        try:
-            print(f"Dizi sayfasına gidiliyor: {url}")
-            sb.uc_open_with_reconnect(url, 7)
-            
-            # Cloudflare bypass denemesi
-            sb.sleep(5)
-            try:
-                sb.uc_gui_click_captcha()
-            except:
-                pass
+headers = {
+    'User-Agent': 'Android Vinebre Software',
+    'X-Requested-With': 'com.bynetvgoldv10',
+    'Referer': 'https://direniyoruz77.store/palx/'
+}
 
-            # 1. Aşama: Bölümler sekmesinin (tab-episodes) yüklenmesini bekle
-            print("Bölüm listesi bekleniyor...")
-            sb.wait_for_element("#tab-episodes", timeout=25)
-            
-            # 2. Aşama: Sezon butonlarını kontrol et ve aktif olanı doğrula
-            if sb.is_element_present(".season-btn"):
-                print("Sezon butonları bulundu.")
-            
-            # 3. Aşama: İstediğin div içeriğini (tab-episodes) çek
-            # Bu alan tüm sezon ve bölüm listesini içerir
-            content = sb.get_html("#tab-episodes")
-            
-            with open("bolumler.html", "w", encoding="utf-8") as f:
-                f.write(content)
-            
-            print("BAŞARILI: Bölüm ve sezon verileri 'bolumler.html' dosyasına kaydedildi.")
-            sb.save_screenshot("sayfa_son_hali.png")
+def fetch_data(path=""):
+    try:
+        response = requests.get(BASE_URL + path, headers=headers, timeout=15)
+        if response.status_code == 200:
+            return response.text
+        return None
+    except Exception as e:
+        print(f"Hata: {e}")
+        return None
 
-        except Exception as e:
-            print(f"Hata detayı: {e}")
-            sb.save_screenshot("hata_detay.png")
-            with open("hata_kaynak.html", "w", encoding="utf-8") as f:
-                f.write(sb.get_page_source())
+def main():
+    # Ana sayfayı çek
+    content = fetch_data()
+    if content:
+        # Burada istersen BeautifulSoup ile veriyi parçalayabilir (parse) 
+        # veya ham HTML olarak gönderebilirsin.
+        payload = {
+            'key': SECRET_KEY,
+            'path': 'home',
+            'html': content
+        }
+        # Kendi sitene gönder
+        requests.post(TARGET_API, data=payload)
+        print("Veri başarıyla gönderildi.")
 
 if __name__ == "__main__":
-    scrape_dizipal_detay()
+    main()
