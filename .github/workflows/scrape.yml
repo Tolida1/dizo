@@ -19,17 +19,17 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install seleniumbase
-          # SeleniumBase için gerekli tarayıcı sürücülerini hazırla
           sbase install chromedriver
 
       - name: Run Scraper
         run: python scraper.py
 
       - name: Upload Results
-        if: always() # Hata alsa bile dosyaları yükle
+        if: always() # Hata çıksa da çıkmasa da dosyaları bize ver
         uses: actions/upload-artifact@v4
         with:
-          name: scrape-results
+          name: logs-and-results
           path: |
             sonuc.html
             debug.png
+            page_source.html
