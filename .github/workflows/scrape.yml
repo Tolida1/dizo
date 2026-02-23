@@ -1,35 +1,24 @@
-name: Dizipal Detail Scraper
+name: NETV Data Sync
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *' # Her saat başı çalışır
+  workflow_dispatch: # Manuel çalıştırma butonu ekler
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Python Setup
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/set_user@v2
         with:
-          python-version: '3.10'
+          python-version: '3.9'
 
-      - name: Install
-        run: |
-          pip install seleniumbase
-          sbase install chromedriver
+      - name: Install dependencies
+        run: pip install requests
 
-      - name: Run
+      - name: Run Scraper
         run: python scraper.py
-
-      - name: Upload
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: dizi-detay-verisi
-          path: |
-            bolumler.html
-            sayfa_son_hali.png
-            hata_detay.png
-            hata_kaynak.html
