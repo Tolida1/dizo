@@ -1,24 +1,35 @@
-name: NETV Data Sync
+name: Mac Botu Otomasyonu
 
 on:
   schedule:
-    - cron: '0 * * * *' # Her saat başı çalışır
-  workflow_dispatch: # Manuel çalıştırma butonu (Test için)
+    # Her 5 dakikada bir çalıştır (Cron formatı)
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Manuel çalıştırmak istersen buton çıkarır
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Depoyu kopyala
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+    - name: Python Kurulumu
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
 
-      - name: Install dependencies
-        run: pip install requests
+    - name: Kütüphaneleri Kur
+      run: |
+        pip install -r requirements.txt
 
-      - name: Run Scraper
-        run: python scraper.py
+    - name: Botu Çalıştır
+      run: python bot.py
+
+    - name: Veriyi GitHub'a Geri Yükle
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add maclar.json
+        git commit -m "Güncel Maç Listesi: $(date)" || exit 0
+        git push
