@@ -7,7 +7,8 @@
         "Time": "20:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=patron",
         "type": "football",
-        "league": "Türkiye Trendyol Süper Lig"
+        "league": "Türkiye Trendyol Süper Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/patron/mono.m3u8"
     },
     {
         "HomeTeam": "Kocaelispor",
@@ -17,7 +18,8 @@
         "Time": "16:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=patron",
         "type": "football",
-        "league": "Türkiye Trendyol Süper Lig"
+        "league": "Türkiye Trendyol Süper Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/patron/mono.m3u8"
     },
     {
         "HomeTeam": "Kasımpaşa",
@@ -27,7 +29,8 @@
         "Time": "13:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=b2",
         "type": "football",
-        "league": "Türkiye Trendyol Süper Lig"
+        "league": "Türkiye Trendyol Süper Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b2/mono.m3u8"
     },
     {
         "HomeTeam": "Göztepe",
@@ -37,7 +40,8 @@
         "Time": "20:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=b2",
         "type": "football",
-        "league": "Türkiye Trendyol Süper Lig"
+        "league": "Türkiye Trendyol Süper Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b2/mono.m3u8"
     },
     {
         "HomeTeam": "Van Spor FK",
@@ -47,7 +51,8 @@
         "Time": "13:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=trtspor",
         "type": "football",
-        "league": "Türkiye Trendyol 1. Lig"
+        "league": "Türkiye Trendyol 1. Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/trtspor/mono.m3u8"
     },
     {
         "HomeTeam": "Hatayspor",
@@ -57,7 +62,8 @@
         "Time": "13:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=bm2",
         "type": "football",
-        "league": ""
+        "league": "",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/bm2/mono.m3u8"
     },
     {
         "HomeTeam": "Holstein Kiel",
@@ -67,7 +73,8 @@
         "Time": "15:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=t3",
         "type": "football",
-        "league": "Almanya 2. Bundesliga"
+        "league": "Almanya 2. Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t3/mono.m3u8"
     },
     {
         "HomeTeam": "Kaiserslautern",
@@ -77,7 +84,8 @@
         "Time": "15:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=t2",
         "type": "football",
-        "league": "Almanya 2. Bundesliga"
+        "league": "Almanya 2. Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t2/mono.m3u8"
     },
     {
         "HomeTeam": "A.Bielefeld",
@@ -87,7 +95,8 @@
         "Time": "15:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=t4",
         "type": "football",
-        "league": "Almanya 2. Bundesliga"
+        "league": "Almanya 2. Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t4/mono.m3u8"
     },
     {
         "HomeTeam": "Bournemouth",
@@ -97,7 +106,8 @@
         "Time": "15:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=b3",
         "type": "football",
-        "league": "İngiltere Premier Lig"
+        "league": "İngiltere Premier Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b3/mono.m3u8"
     },
     {
         "HomeTeam": "Leicester",
@@ -107,7 +117,8 @@
         "Time": "15:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=ex1",
         "type": "football",
-        "league": "İngiltere Championship"
+        "league": "İngiltere Championship",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/ex1/mono.m3u8"
     },
     {
         "HomeTeam": "Red Star",
@@ -117,7 +128,8 @@
         "Time": "16:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=b4",
         "type": "football",
-        "league": "İngiltere Premier Lig"
+        "league": "İngiltere Premier Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b4/mono.m3u8"
     },
     {
         "HomeTeam": "Rayo Vallecano",
@@ -127,7 +139,8 @@
         "Time": "16:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=ss",
         "type": "football",
-        "league": "İspanya LaLiga"
+        "league": "İspanya LaLiga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/ss/mono.m3u8"
     },
     {
         "HomeTeam": "Como",
@@ -137,7 +150,8 @@
         "Time": "17:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=t1",
         "type": "football",
-        "league": "İtalya Serie A"
+        "league": "İtalya Serie A",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t1/mono.m3u8"
     },
     {
         "HomeTeam": "Leverkusen",
@@ -147,7 +161,8 @@
         "Time": "17:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=t2",
         "type": "football",
-        "league": "Almanya Bundesliga"
+        "league": "Almanya Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t2/mono.m3u8"
     },
     {
         "HomeTeam": "W.Bremen",
@@ -157,7 +172,8 @@
         "Time": "17:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=ex1",
         "type": "football",
-        "league": "Almanya Bundesliga"
+        "league": "Almanya Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/ex1/mono.m3u8"
     },
     {
         "HomeTeam": "M gladbach",
@@ -167,7 +183,8 @@
         "Time": "17:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=t4",
         "type": "football",
-        "league": "Almanya Bundesliga"
+        "league": "Almanya Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t4/mono.m3u8"
     },
     {
         "HomeTeam": "Hoffenheim",
@@ -177,7 +194,8 @@
         "Time": "17:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=t3",
         "type": "football",
-        "league": "Almanya Bundesliga"
+        "league": "Almanya Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t3/mono.m3u8"
     },
     {
         "HomeTeam": "Burnley",
@@ -187,7 +205,8 @@
         "Time": "18:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=bm2",
         "type": "football",
-        "league": "İngiltere Premier Lig"
+        "league": "İngiltere Premier Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/bm2/mono.m3u8"
     },
     {
         "HomeTeam": "Liverpool",
@@ -197,7 +216,8 @@
         "Time": "18:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=b3",
         "type": "football",
-        "league": "İngiltere Premier Lig"
+        "league": "İngiltere Premier Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b3/mono.m3u8"
     },
     {
         "HomeTeam": "Newcastle",
@@ -207,7 +227,8 @@
         "Time": "18:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=b5",
         "type": "football",
-        "league": "İngiltere Premier Lig"
+        "league": "İngiltere Premier Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b5/mono.m3u8"
     },
     {
         "HomeTeam": "Preston North",
@@ -217,7 +238,8 @@
         "Time": "18:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=ex2",
         "type": "football",
-        "league": "İngiltere Championship"
+        "league": "İngiltere Championship",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/ex2/mono.m3u8"
     },
     {
         "HomeTeam": "Barcelona",
@@ -227,7 +249,8 @@
         "Time": "18:15",
         "URL": "https://restmacizle42.cfd/ch.html?id=ss",
         "type": "football",
-        "league": "İspanya LaLiga"
+        "league": "İspanya LaLiga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/ss/mono.m3u8"
     },
     {
         "HomeTeam": "Rennes",
@@ -237,7 +260,8 @@
         "Time": "19:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=b4",
         "type": "football",
-        "league": "Fransa Ligue 1"
+        "league": "Fransa Ligue 1",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b4/mono.m3u8"
     },
     {
         "HomeTeam": "Hellas Verona",
@@ -247,7 +271,8 @@
         "Time": "20:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=t1",
         "type": "football",
-        "league": "İtalya Serie A"
+        "league": "İtalya Serie A",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t1/mono.m3u8"
     },
     {
         "HomeTeam": "Keçiörengücü",
@@ -257,7 +282,8 @@
         "Time": "20:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=trtspor",
         "type": "football",
-        "league": "Türkiye Trendyol 1. Lig"
+        "league": "Türkiye Trendyol 1. Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/trtspor/mono.m3u8"
     },
     {
         "HomeTeam": "Leeds Utd",
@@ -267,7 +293,8 @@
         "Time": "20:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=b3",
         "type": "football",
-        "league": "İngiltere Premier Lig"
+        "league": "İngiltere Premier Lig",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/b3/mono.m3u8"
     },
     {
         "HomeTeam": "Mallorca",
@@ -277,7 +304,8 @@
         "Time": "20:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=ss",
         "type": "football",
-        "league": "İspanya LaLiga"
+        "league": "İspanya LaLiga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/ss/mono.m3u8"
     },
     {
         "HomeTeam": "Dortmund",
@@ -287,7 +315,8 @@
         "Time": "20:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=t2",
         "type": "football",
-        "league": "Almanya Bundesliga"
+        "league": "Almanya Bundesliga",
+        "m3u8": "https://8pi.d72577a9dd0ec30.sbs/t2/mono.m3u8"
     },
     {
         "HomeTeam": "Heracles",
@@ -297,7 +326,8 @@
         "Time": "20:45",
         "URL": "https://restmacizle42.cfd/ch.html?id=t3",
         "type": "football",
-        "league": "Eredivisie"
+        "league": "Eredivisie",
+        "m3u8": null
     },
     {
         "HomeTeam": "Monaco",
@@ -307,7 +337,8 @@
         "Time": "21:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=b4",
         "type": "football",
-        "league": "Fransa Ligue 1"
+        "league": "Fransa Ligue 1",
+        "m3u8": null
     },
     {
         "HomeTeam": "Pau",
@@ -317,7 +348,8 @@
         "Time": "22:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=bm2",
         "type": "football",
-        "league": "Fransa Ligue 2"
+        "league": "Fransa Ligue 2",
+        "m3u8": null
     },
     {
         "HomeTeam": "Al Fayha",
@@ -327,7 +359,8 @@
         "Time": "22:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=ex7",
         "type": "football",
-        "league": "Türkiye Süper Ligi"
+        "league": "Türkiye Süper Ligi",
+        "m3u8": null
     },
     {
         "HomeTeam": "Greuther Fürth",
@@ -337,7 +370,8 @@
         "Time": "22:30",
         "URL": "https://restmacizle42.cfd/ch.html?id=t4",
         "type": "football",
-        "league": "Almanya 2. Bundesliga"
+        "league": "Almanya 2. Bundesliga",
+        "m3u8": null
     },
     {
         "HomeTeam": "Inter",
@@ -347,7 +381,8 @@
         "Time": "22:45",
         "URL": "https://restmacizle42.cfd/ch.html?id=t1",
         "type": "football",
-        "league": "İtalya Serie A"
+        "league": "İtalya Serie A",
+        "m3u8": null
     },
     {
         "HomeTeam": "Real Oviedo",
@@ -357,7 +392,8 @@
         "Time": "23:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=ss",
         "type": "football",
-        "league": "İspanya LaLiga"
+        "league": "İspanya LaLiga",
+        "m3u8": null
     },
     {
         "HomeTeam": "CD Castellon",
@@ -367,7 +403,8 @@
         "Time": "23:00",
         "URL": "https://restmacizle42.cfd/ch.html?id=ex1",
         "type": "football",
-        "league": "İspanya 2.Lig"
+        "league": "İspanya 2.Lig",
+        "m3u8": null
     },
     {
         "HomeTeam": "Le Havre",
@@ -377,7 +414,8 @@
         "Time": "23:05",
         "URL": "https://restmacizle42.cfd/ch.html?id=b4",
         "type": "football",
-        "league": "Fransa Ligue 1"
+        "league": "Fransa Ligue 1",
+        "m3u8": null
     },
     {
         "HomeTeam": "Boca Juniors",
@@ -387,6 +425,7 @@
         "Time": "23:45",
         "URL": "https://restmacizle42.cfd/ch.html?id=smarts",
         "type": "football",
-        "league": ""
+        "league": "",
+        "m3u8": null
     }
 ]
