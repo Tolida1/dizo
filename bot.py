@@ -3,10 +3,12 @@ import json
 import os
 
 def maclari_cek():
-    # Cloudflare engelini aşmak için scraper oluştur
     scraper = cloudscraper.create_scraper()
     
+    # Hedef API ve Ana Domain
     url = "https://patronsports2.cfd/matches.php"
+    base_domain = "https://patronsports2.cfd"
+    
     headers = {
         'Origin': 'https://restmacizle42.cfd',
         'Referer': 'https://restmacizle42.cfd/',
@@ -18,29 +20,31 @@ def maclari_cek():
         if response.status_code == 200:
             raw_data = response.text.strip()
             
-            # Eğer veri boş değilse işle
             if raw_data:
-                # KRİTİK: Veri [ ile başlamıyorsa liste formatına getir
+                # Liste formatı kontrolü ve düzeltme
                 if not raw_data.startswith('['):
-                    # Eğer objeler arasında virgül yoksa veya hatalıysa düzeltme denenebilir
-                    # Ama genellikle {...},{...} şeklinde gelir, başına [ sonuna ] eklemek yeterlidir
                     raw_data = f"[{raw_data}]"
                 
-                # JSON geçerli mi diye kontrol et
                 try:
-                    json_test = json.loads(raw_data)
+                    maclar = json.loads(raw_data)
                     
-                    # Dosyayı temiz bir liste olarak kaydet
+                    # URL'leri tam bağlantıya dönüştürme döngüsü
+                    for mac in maclar:
+                        if 'URL' in mac and mac['URL'].startswith('/'):
+                            # "/ch.html?id=..." kısmını tam link yapar
+                            mac['URL'] = f"{base_domain}{mac['URL']}"
+                    
+                    # JSON dosyasını kaydet
                     with open('maclar.json', 'w', encoding='utf-8') as f:
-                        json.dump(json_test, f, ensure_ascii=False, indent=4)
+                        json.dump(maclar, f, ensure_ascii=False, indent=4)
                     
-                    print("BAŞARILI: maclar.json liste formatında güncellendi.")
+                    print("BAŞARILI: Veriler tam URL formatında listeye kaydedildi.")
                 except json.JSONDecodeError:
-                    print("HATA: Gelen veri geçerli bir JSON formatına dönüştürülemedi.")
+                    print("HATA: JSON ayrıştırma hatası.")
             else:
-                print("UYARI: Kaynaktan boş veri döndü.")
+                print("UYARI: Kaynak veri boş.")
         else:
-            print(f"HATA: Sunucu {response.status_code} kodunu döndürdü.")
+            print(f"HATA: HTTP {response.status_code}")
             
     except Exception as e:
         print(f"Sistem Hatası: {e}")
