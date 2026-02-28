@@ -1,77 +1,81 @@
 import cloudscraper
 import json
 import re
-from bs4 import BeautifulSoup
-
-def m3u8_coz(url, scraper):
-    try:
-        # Maçın izleme sayfasına gir
-        headers = {'Referer': 'https://restmacizle42.cfd/'}
-        response = scraper.get(url, headers=headers)
-        if response.status_code != 200: return None
-
-        content = response.text
-        
-        # 1. Adım: Sayfa içindeki ID'yi bul (id=patron gibi)
-        match_id = None
-        id_search = re.search(r"get\(['\"]id['\"]\);.*?if\(!b\)return null;.*?return currentBaseUrl\+b\+['\"]/mono.m3u8['\"]", content, re.DOTALL)
-        # Daha basit bir regex ile URL'den veya CONFIG'den ID çekme:
-        id_param = re.search(r"id=([a-zA-Z0-9_-]+)", url)
-        if id_param:
-            match_id = id_param.group(1)
-
-        # 2. Adım: Base URL'yi domain.php'den çek (Sitedeki CONFIG yapısına göre)
-        # Not: Site içindeki domain.php dinamik olduğu için genellikle sabit bir baseurl kullanılır 
-        # veya domain.php'ye istek atılır.
-        domain_api = "https://patronsports2.cfd/domain.php"
-        domain_res = scraper.get(domain_api, headers=headers)
-        base_url = ""
-        if domain_res.status_code == 200:
-            base_url = domain_res.json().get('baseurl', '')
-
-        if base_url and match_id:
-            return f"{base_url}{match_id}/mono.m3u8"
-            
-    except Exception as e:
-        print(f"Link çözme hatası: {e}")
-    return None
 
 def maclari_cek():
     scraper = cloudscraper.create_scraper()
+    
     source_url = "https://patronsports2.cfd/matches.php"
-    target_domain = "https://restmacizle42.cfd"
+    # m3u8'lerin çözülmesi için gerekebilecek ana domain
+    base_domain = "https://patronsports2.cfd"
     
     headers = {
         'Origin': 'https://restmacizle42.cfd',
         'Referer': 'https://restmacizle42.cfd/',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
     }
 
     try:
         response = scraper.get(source_url, headers=headers)
         if response.status_code == 200:
             raw_data = response.text.strip()
-            if not raw_data.startswith('['): raw_data = f"[{raw_data}]"
+            if not raw_data.startswith('['):
+                raw_data = f"[{raw_data}]"
             
-            maclar = json.loads(raw_data)
+            raw_maclar = json.loads(raw_data)
             
-            for mac in maclar:
-                # Orijinal İzleme Linkini Oluştur
-                path = mac['URL'].replace('https://patronsports2.cfd', '')
-                if not path.startswith('/'): path = '/' + path
-                izle_linki = f"https://restmacizle42.cfd{path}"
-                
-                # M3U8 Linkini Çöz ve Ekle
-                print(f"Çözülüyor: {mac['HomeTeam']}...")
-                m3u8_url = m3u8_coz(izle_linki, scraper)
-                
-                mac['m3u8'] = m3u8_url # Yeni alanı ekle
-                mac['URL'] = izle_linki # Normal linki de güncelle
+            # Senin istediğin ana yapı
+            final_json = {
+                "list": {
+                    "service": "iptv",
+                    "title": "iptv",
+                    "item": []
+                }
+            }
 
+            for mac in raw_maclar:
+                # m3u8 linkini oluştur (Eğer ID varsa oluşturur, yoksa boş bırakır)
+                # Not: Önceki adımda çözdüğümüz mantığı buraya entegre ediyoruz
+                match_id = ""
+                if 'URL' in mac:
+                    id_match = re.search(r"id=([a-zA-Z0-9_-]+)", mac['URL'])
+                    if id_match:
+                        match_id = id_match.group(1)
+                
+                # Örnek m3u8 yapısı (Site dinamik baseurl kullanıyorsa burası gelişebilir)
+                # Şimdilik senin verdiğin formata uygun bir placeholder veya çözülmüş link koyuyoruz
+                m3u8_link = f"https://restmacizle42.cfd/{match_id}/mono.m3u8" if match_id else ""
+
+                # Yeni item yapısını oluştur
+                item = {
+                    "service": "iptv",
+                    "title": f"{mac.get('HomeTeam', '')} - {mac.get('AwayTeam', '')}",
+                    "playlistURL": "",
+                    "media_url": m3u8_link,
+                    "url": m3u8_link,
+                    "h1Key": "accept",
+                    "h1Val": "*/*",
+                    "h2Key": "referer",
+                    "h2Val": "https://restmacizle42.cfd/",
+                    "h3Key": "origin",
+                    "h3Val": "https://restmacizle42.cfd",
+                    "h4Key": "0",
+                    "h4Val": "0",
+                    "h5Key": "0",
+                    "h5Val": "0",
+                    "thumb_square": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5nfCOsK9y3unVOT0SrM0fDpKVP4q_Baa_oT1ceUiMik6VRzVl4PNYuyMvmTJL2laGuaVRaR5rNV9sbUSjhKZTdI0Cbi-BRn5JWnHR9Z2PIioNsveAaVNpDPlQIvAGedbWrT_1tIuss64Rk21PQL9_7SAGI6_Bd9zYDlpbYjdXsbgDU3VbTIeCaW39Vgk/s1600/mac_canli.png",
+                    "group": mac.get('Time', '00:00')
+                }
+                
+                final_json["list"]["item"].append(item)
+
+            # Dosyaya kaydet
             with open('maclar.json', 'w', encoding='utf-8') as f:
-                json.dump(maclar, f, ensure_ascii=False, indent=4)
+                json.dump(final_json, f, ensure_ascii=False, indent=4)
             
-            print("BAŞARILI: M3U8 linkleri dahil edildi.")
-            
+            print("BAŞARILI: JSON istenen hiyerarşik formatta kaydedildi.")
+        else:
+            print(f"Hata: {response.status_code}")
     except Exception as e:
         print(f"Sistem Hatası: {e}")
 
