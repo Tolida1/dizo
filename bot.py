@@ -5,7 +5,7 @@ import re
 def maclari_cek():
     scraper = cloudscraper.create_scraper()
     
-    # Veri kaynağı ve Domain Bilgisi
+    # Veri kaynakları
     source_url = "https://patronsports2.cfd/matches.php"
     domain_api = "https://patronsports2.cfd/domain.php"
     
@@ -16,13 +16,20 @@ def maclari_cek():
     }
 
     try:
-        # 1. ADIM: Gerçek Yayın Sunucusunu (BaseURL) Çek
-        base_url = "https://restmacizle42.cfd/" # Varsayılan
-        domain_res = scraper.get(domain_api, headers=headers)
-        if domain_res.status_code == 200:
-            base_url = domain_res.json().get('baseurl', base_url)
+        # 1. ADIM: Gerçek Yayın Sunucusunu (BaseURL) Al
+        base_url = "https://restmacizle42.cfd/" 
+        try:
+            domain_res = scraper.get(domain_api, headers=headers, timeout=10)
+            if domain_res.status_code == 200:
+                base_url = domain_res.json().get('baseurl', base_url)
+        except:
+            print("Domain API alınamadı, varsayılan kullanılıyor.")
 
-        # 2. ADIM: Maç Listesini Çek
+        # URL sonunda / olduğundan emin olalım
+        if not base_url.endswith('/'):
+            base_url += '/'
+
+        # 2. ADIM: Maç Listesini Al
         response = scraper.get(source_url, headers=headers)
         if response.status_code == 200:
             raw_data = response.text.strip()
@@ -40,22 +47,21 @@ def maclari_cek():
             }
 
             for mac in raw_maclar:
-                # ID Ayıklama (Örn: patron, bm2, b2)
+                # ID Ayıklama (Örn: b2, patron)
                 match_id = ""
                 if 'URL' in mac:
                     id_match = re.search(r"id=([a-zA-Z0-9_-]+)", mac['URL'])
                     if id_match:
                         match_id = id_match.group(1)
                 
-                # 3. ADIM: M3U8 Linkini Gerçek Sunucuyla Birleştir
-                # Örnek Çıktı: https://cdn.sunucu.com/id/id.m3u8
+                # 3. ADIM: M3U8 Linkini Oluştur (Klasörsüz Direkt Format)
+                # SONUÇ: https://domain.com/b2.m3u8
                 if match_id:
-                    # Bazı sistemlerde klasör ve dosya adı aynıdır: /id/id.m3u8
-                    # Eğer sadece /id/mono.m3u8 ise aşağıyı ona göre düzenleyebilirsin
-                    m3u8_link = f"{base_url}{match_id}/{match_id}.m3u8"
+                    m3u8_link = f"{base_url}{match_id}.m3u8"
                 else:
                     m3u8_link = ""
 
+                # JSON Item Yapısı
                 item = {
                     "service": "iptv",
                     "title": f"{mac.get('HomeTeam', '')} - {mac.get('AwayTeam', '')}",
@@ -78,10 +84,11 @@ def maclari_cek():
                 
                 final_json["list"]["item"].append(item)
 
+            # 4. ADIM: Dosyayı Kaydet
             with open('maclar.json', 'w', encoding='utf-8') as f:
                 json.dump(final_json, f, ensure_ascii=False, indent=4)
             
-            print(f"BAŞARILI: M3U8 linkleri {base_url} üzerinden oluşturuldu.")
+            print(f"BAŞARILI: {len(raw_maclar)} maç tekil klasör formatıyla kaydedildi.")
             
     except Exception as e:
         print(f"Sistem Hatası: {e}")
