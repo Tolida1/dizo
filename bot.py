@@ -5,9 +5,9 @@ import re
 def maclari_cek():
     scraper = cloudscraper.create_scraper()
     
+    # Veri kaynağı ve Domain Bilgisi
     source_url = "https://patronsports2.cfd/matches.php"
-    # m3u8'lerin çözülmesi için gerekebilecek ana domain
-    base_domain = "https://patronsports2.cfd"
+    domain_api = "https://patronsports2.cfd/domain.php"
     
     headers = {
         'Origin': 'https://restmacizle42.cfd',
@@ -16,6 +16,13 @@ def maclari_cek():
     }
 
     try:
+        # 1. ADIM: Gerçek Yayın Sunucusunu (BaseURL) Çek
+        base_url = "https://restmacizle42.cfd/" # Varsayılan
+        domain_res = scraper.get(domain_api, headers=headers)
+        if domain_res.status_code == 200:
+            base_url = domain_res.json().get('baseurl', base_url)
+
+        # 2. ADIM: Maç Listesini Çek
         response = scraper.get(source_url, headers=headers)
         if response.status_code == 200:
             raw_data = response.text.strip()
@@ -24,7 +31,6 @@ def maclari_cek():
             
             raw_maclar = json.loads(raw_data)
             
-            # Senin istediğin ana yapı
             final_json = {
                 "list": {
                     "service": "iptv",
@@ -34,19 +40,22 @@ def maclari_cek():
             }
 
             for mac in raw_maclar:
-                # m3u8 linkini oluştur (Eğer ID varsa oluşturur, yoksa boş bırakır)
-                # Not: Önceki adımda çözdüğümüz mantığı buraya entegre ediyoruz
+                # ID Ayıklama (Örn: patron, bm2, b2)
                 match_id = ""
                 if 'URL' in mac:
                     id_match = re.search(r"id=([a-zA-Z0-9_-]+)", mac['URL'])
                     if id_match:
                         match_id = id_match.group(1)
                 
-                # Örnek m3u8 yapısı (Site dinamik baseurl kullanıyorsa burası gelişebilir)
-                # Şimdilik senin verdiğin formata uygun bir placeholder veya çözülmüş link koyuyoruz
-                m3u8_link = f"https://restmacizle42.cfd/{match_id}/mono.m3u8" if match_id else ""
+                # 3. ADIM: M3U8 Linkini Gerçek Sunucuyla Birleştir
+                # Örnek Çıktı: https://cdn.sunucu.com/id/id.m3u8
+                if match_id:
+                    # Bazı sistemlerde klasör ve dosya adı aynıdır: /id/id.m3u8
+                    # Eğer sadece /id/mono.m3u8 ise aşağıyı ona göre düzenleyebilirsin
+                    m3u8_link = f"{base_url}{match_id}/{match_id}.m3u8"
+                else:
+                    m3u8_link = ""
 
-                # Yeni item yapısını oluştur
                 item = {
                     "service": "iptv",
                     "title": f"{mac.get('HomeTeam', '')} - {mac.get('AwayTeam', '')}",
@@ -69,13 +78,11 @@ def maclari_cek():
                 
                 final_json["list"]["item"].append(item)
 
-            # Dosyaya kaydet
             with open('maclar.json', 'w', encoding='utf-8') as f:
                 json.dump(final_json, f, ensure_ascii=False, indent=4)
             
-            print("BAŞARILI: JSON istenen hiyerarşik formatta kaydedildi.")
-        else:
-            print(f"Hata: {response.status_code}")
+            print(f"BAŞARILI: M3U8 linkleri {base_url} üzerinden oluşturuldu.")
+            
     except Exception as e:
         print(f"Sistem Hatası: {e}")
 
